@@ -3,18 +3,29 @@ package edu.kis.powp.jobs2d.drivers;
 import edu.kis.powp.jobs2d.Job2dDriver;
 import edu.kis.powp.jobs2d.LoggerDriver;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 /**
  * Driver manager provides means to setup the driver. It also enables other
  * components and features of the application to react on configuration changes.
  */
 public class DriverManager {
-
+	private static PropertyChangeSupport support = new PropertyChangeSupport(DriverManager.class);
 	private Job2dDriver currentDriver = new LoggerDriver();
+
+	/**
+	 * @param pcl Observer to check the current driver
+	 */
+	public static void addPropertyChangeListener(PropertyChangeListener pcl) {
+		support.addPropertyChangeListener(pcl);
+	}
 
 	/**
 	 * @param driver Set the driver as current.
 	 */
 	public synchronized void setCurrentDriver(Job2dDriver driver) {
+		support.firePropertyChange("currentDriver", this.currentDriver, driver);
 		currentDriver = driver;
 	}
 
