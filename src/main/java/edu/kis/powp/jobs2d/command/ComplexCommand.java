@@ -7,14 +7,12 @@ import edu.kis.powp.jobs2d.Job2dDriver;
 
 public class ComplexCommand implements ICompoundCommand {
 	
-	private int posX, posY;
 	private List<DriverCommand> list;
+	private String name;
 	
-	public ComplexCommand(int posX, int posY, List<DriverCommand> list) {
-		super();
-		this.posX = posX;
-		this.posY = posY;
+	public ComplexCommand(List<DriverCommand> list, String name) {
 		this.list = list;
+		this.name = name;
 	}
 	
 	@Override
@@ -24,7 +22,11 @@ public class ComplexCommand implements ICompoundCommand {
 
 	@Override
 	public void execute(Job2dDriver driver) {
-		driver.operateTo(posX, posY);		
+		list.forEach((c) -> c.execute(driver));
 	}
-
+	
+    @Override
+    public String toString() {
+        return name;
+    }
 }
