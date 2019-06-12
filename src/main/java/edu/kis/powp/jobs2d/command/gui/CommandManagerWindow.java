@@ -163,7 +163,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     private void newCommand() {
         JSONText = newCommandField.getText();
         CommandReader commandReader = new JSONCommand();
-                commandReader.read(JSONText);
+        commandReader.read(JSONText);
         commandManager.setCurrentCommand(commandReader.getCommandsList(), commandReader.getName());
     }
 }
