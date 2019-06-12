@@ -9,19 +9,27 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class JSONCommand implements DriverCommand{
+public class JSONCommand implements CommandReader{
 
+    String name ="JSONCcmmand";
     List<DriverCommand> driverCommands = new LinkedList<>();
 
-    public JSONCommand(String json) {
+    public void execute(Job2dDriver driver) {
+        driverCommands.forEach((c) -> c.execute(driver));
+    }
+
+    @Override
+    public void read(String text) {
         JSONParser parser = new JSONParser();
         try{
-            Object obj = parser.parse(json);
+            Object obj = parser.parse(text);
             JSONObject object = (JSONObject) obj;
+            if(object.get("name") != null)
+                name = object.get("name").toString();
             JSONArray jsonArray = (JSONArray) object.get("commands");
 
             for (Object e:
-                 jsonArray) {
+                    jsonArray) {
                 int x = Integer.valueOf(((JSONObject) e).get("x").toString());
                 int y = Integer.valueOf(((JSONObject) e).get("y").toString());
 
@@ -38,7 +46,12 @@ public class JSONCommand implements DriverCommand{
     }
 
     @Override
-    public void execute(Job2dDriver driver) {
-        driverCommands.forEach((c) -> c.execute(driver));
+    public List<DriverCommand> getCommandsList() {
+        return this.driverCommands;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }

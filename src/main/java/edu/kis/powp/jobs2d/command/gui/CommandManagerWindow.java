@@ -1,7 +1,7 @@
 package edu.kis.powp.jobs2d.command.gui;
 
-import edu.kis.powp.appbase.Application;
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.CommandReader;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.JSONCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
@@ -25,6 +25,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     private String observerListString;
     private JTextArea observerListField;
     private String JSONText;
+    private JFileChooser fileChooser;
 
     public CommandManagerWindow(DriverCommandManager commandManager) {
         this.setTitle("Command Manager");
@@ -80,6 +81,14 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         c.weighty = 1;
         content.add(btClearCommand, c);
 
+        /*JButton btFileCommand = new JButton("Add file");
+        btClearCommand.addActionListener((ActionEvent e) -> this.FileCommand());
+        c.fill = GridBagConstraints.BOTH;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.weighty = 1;
+        content.add(btClearCommand, c);*/
+
         JButton btnClearCommand = new JButton("Clear command");
         btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
         c.fill = GridBagConstraints.BOTH;
@@ -133,12 +142,28 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         }
     }
 
+    /*private void FileCommand(){
+        if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(frame)) {
+            File file = fileChooser.getSelectedFile(); //utworzenie obiektu i przypisanie mu wybranego pliku
+            Scanner in = null; //zdeklarowanie obiektu scanner który posłuży do odczytania plikiu
+            try {
+                in = new Scanner(file);//utworzenie obiektu który wczytuje plik zawarty w obiekcie file
+                while (in.hasNext()) { //dopóki file ma nastepny znak
+                    String line = in.nextLine(); //wczytanie linijki z file
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            } finally {
+                in.close();
+            }
+
+        }
+    }*/
 
     private void newCommand() {
         JSONText = newCommandField.getText();
-        JSONCommand command = new JSONCommand(JSONText);
-        ArrayList<DriverCommand> driverCommands= new ArrayList<>();
-        driverCommands.add(command);
-        commandManager.setCurrentCommand(driverCommands, "JSON Command");
+        CommandReader commandReader = new JSONCommand();
+                commandReader.read(JSONText);
+        commandManager.setCurrentCommand(commandReader.getCommandsList(), commandReader.getName());
     }
 }
