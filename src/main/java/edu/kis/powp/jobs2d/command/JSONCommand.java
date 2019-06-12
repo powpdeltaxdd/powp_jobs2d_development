@@ -11,12 +11,8 @@ import java.util.List;
 
 public class JSONCommand implements CommandReader{
 
-    String name ="JSONCcmmand";
-    List<DriverCommand> driverCommands = new LinkedList<>();
-
-    public void execute(Job2dDriver driver) {
-        driverCommands.forEach((c) -> c.execute(driver));
-    }
+    private String name ="JSONCcmmand";
+    private List<DriverCommand> driverCommands = new LinkedList<>();
 
     @Override
     public void read(String text) {
