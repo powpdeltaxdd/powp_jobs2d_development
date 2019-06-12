@@ -1,17 +1,18 @@
 package edu.kis.powp.jobs2d.command.gui;
 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
 import edu.kis.powp.appbase.gui.WindowComponent;
+import edu.kis.powp.jobs2d.command.DriverCommand;
+import edu.kis.powp.jobs2d.command.OperateToCommand;
+import edu.kis.powp.jobs2d.command.SetPositionCommand;
 import edu.kis.powp.jobs2d.command.manager.DriverCommandManager;
+import edu.kis.powp.jobs2d.features.CommandsFeature;
 import edu.kis.powp.observer.Subscriber;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
@@ -19,9 +20,12 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 	private DriverCommandManager commandManager;
 
 	private JTextArea currentCommandField;
+	private JTextArea newCommandField;
 
 	private String observerListString;
 	private JTextArea observerListField;
+
+	private String JSONText;
 
 	/**
 	 * 
@@ -56,6 +60,27 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		content.add(currentCommandField, c);
 		updateCurrentCommandField();
 
+
+		newCommandField = new JTextArea("");
+		newCommandField.setEditable(true);
+		newCommandField.setLineWrap(true);
+		newCommandField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(newCommandField, c);
+		updateCurrentCommandField();
+
+
+		JButton btClearCommand = new JButton("Add command");
+		btClearCommand.addActionListener((ActionEvent e) -> this.newCommand());
+		c.fill = GridBagConstraints.BOTH;
+		c.weightx = 1;
+		c.gridx = 0;
+		c.weighty = 1;
+		content.add(btClearCommand, c);
+
 		JButton btnClearCommand = new JButton("Clear command");
 		btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
 		c.fill = GridBagConstraints.BOTH;
@@ -82,7 +107,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		currentCommandField.setText(commandManager.getCurrentCommandString());
 	}
 
-	public void deleteObservers() {
+	private void deleteObservers() {
 		commandManager.getChangePublisher().clearObservers();
 		this.updateObserverListField();
 	}
@@ -109,4 +134,21 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
 		}
 	}
 
+	private void newCommand() {
+		JSONText = newCommandField.getText();
+		System.out.println(JSONText);
+		/*List<DriverCommand> commands = new ArrayList<DriverCommand>();
+
+		commands.add(new SetPositionCommand(0, -40));
+		commands.add(new OperateToCommand(0, 50));
+		commands.add(new SetPositionCommand(70, -50));
+		commands.add(new OperateToCommand(20, -50));
+		commands.add(new OperateToCommand(20, 0));
+		commands.add(new OperateToCommand(70, 0));
+		commands.add(new OperateToCommand(70, 50));
+		commands.add(new OperateToCommand(20, 50));
+
+		DriverCommandManager manager = CommandsFeature.getDriverCommandManager();
+		manager.setCurrentCommand(commands, "New Command");*/
+	}
 }
