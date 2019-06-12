@@ -1,6 +1,7 @@
 package edu.kis.powp.jobs2d.command.manager;
 
 import edu.kis.powp.jobs2d.Job2dDriver;
+import edu.kis.powp.jobs2d.command.CommandReader;
 import edu.kis.powp.jobs2d.command.DriverCommand;
 import edu.kis.powp.jobs2d.command.ICompoundCommand;
 import edu.kis.powp.observer.Publisher;
@@ -13,8 +14,16 @@ import java.util.List;
  */
 public class DriverCommandManager {
     private DriverCommand currentCommand = null;
-
+    private CommandReader commandReader = null;
     private Publisher changePublisher = new Publisher();
+
+    public synchronized void setCommandReader(CommandReader commandReader){
+        this.commandReader = commandReader;
+    }
+
+    public synchronized CommandReader getCommandReader(){
+        return this.commandReader;
+    }
 
     /**
      * Set current command.
