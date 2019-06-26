@@ -21,7 +21,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     private JTextArea newCommandField;
     private String observerListString;
     private JTextArea observerListField;
-    private String JSONText;
+    private String textFromFile;
 
     public CommandManagerWindow(DriverCommandManager commandManager) {
         this.setTitle("Command Manager");
@@ -124,7 +124,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
     }
 
     private void newCommand() {
-
-        commandManager.setCurrentCommand(commandManager.getCommandReader().getCommandsList(), commandManager.getCommandReader().getName());
+        textFromFile = newCommandField.getText();
+        commandManager.setCurrentCommandFromString(textFromFile);
     }
 }

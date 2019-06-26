@@ -18,8 +18,9 @@ public class DriverCommandManager {
     private CommandReader commandReader = null;
     private Publisher changePublisher = new Publisher();
 
-    public synchronized void readNewCommand(String text){
+    public synchronized void setCurrentCommandFromString(String text){
         commandReader.read(text);
+        this.setCurrentCommand(this.getCommandReader().getCommandsList(), this.getCommandReader().getName());
     }
 
     public synchronized void setCommandReader(CommandReader commandReader){
