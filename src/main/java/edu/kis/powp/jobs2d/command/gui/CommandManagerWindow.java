@@ -15,9 +15,6 @@ import java.util.List;
 
 public class CommandManagerWindow extends JFrame implements WindowComponent {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 9204679248304669948L;
     private DriverCommandManager commandManager;
     private JTextArea currentCommandField;
@@ -54,13 +51,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         content.add(currentCommandField, c);
         updateCurrentCommandField();
 
-
-        newCommandField = new JTextArea("{ \"commands\":[\n" +
-                "{\"command\":\"OperateTo\", \n" +
-                "\"x\":10," +
-                "\"y\":5 \n" +
-                "}]\n" +
-                "}");
+        newCommandField = new JTextArea(
+                "{ \"commands\":[\n" + "{\"command\":\"OperateTo\", \n" + "\"x\":10," + "\"y\":5 \n" + "}]\n" + "}");
         newCommandField.setEditable(true);
         newCommandField.setLineWrap(true);
         newCommandField.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -71,7 +63,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         content.add(newCommandField, c);
         updateCurrentCommandField();
 
-
         JButton btClearCommand = new JButton("Add command");
         btClearCommand.addActionListener((ActionEvent e) -> this.newCommand());
         c.fill = GridBagConstraints.BOTH;
@@ -79,14 +70,6 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         c.gridx = 0;
         c.weighty = 1;
         content.add(btClearCommand, c);
-
-        /*JButton btFileCommand = new JButton("Add file");
-        btClearCommand.addActionListener((ActionEvent e) -> this.FileCommand());
-        c.fill = GridBagConstraints.BOTH;
-        c.weightx = 1;
-        c.gridx = 0;
-        c.weighty = 1;
-        content.add(btClearCommand, c);*/
 
         JButton btnClearCommand = new JButton("Clear command");
         btnClearCommand.addActionListener((ActionEvent e) -> this.clearCommand());
@@ -131,8 +114,7 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         observerListField.setText(observerListString);
     }
 
-    @Override
-    public void HideIfVisibleAndShowIfHidden() {
+    @Override public void HideIfVisibleAndShowIfHidden() {
         updateObserverListField();
         if (this.isVisible()) {
             this.setVisible(false);
@@ -141,28 +123,8 @@ public class CommandManagerWindow extends JFrame implements WindowComponent {
         }
     }
 
-    /*private void FileCommand(){
-        if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(frame)) {
-            File file = fileChooser.getSelectedFile(); //utworzenie obiektu i przypisanie mu wybranego pliku
-            Scanner in = null; //zdeklarowanie obiektu scanner który posłuży do odczytania plikiu
-            try {
-                in = new Scanner(file);//utworzenie obiektu który wczytuje plik zawarty w obiekcie file
-                while (in.hasNext()) { //dopóki file ma nastepny znak
-                    String line = in.nextLine(); //wczytanie linijki z file
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            } finally {
-                in.close();
-            }
-
-        }
-    }*/
-
     private void newCommand() {
 
-        JSONText = newCommandField.getText();
-        commandManager.readNewCommand(JSONText);
         commandManager.setCurrentCommand(commandManager.getCommandReader().getCommandsList(), commandManager.getCommandReader().getName());
     }
 }
